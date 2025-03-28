@@ -1,0 +1,50 @@
+ray start --head --node-ip-address 0.0.0.0 --num-gpus 8;
+
+nohup ray job submit --address="http://127.0.0.1:8265" \
+    --runtime-env-json='{"working_dir": "$WORKING_DIR/working/"}' \
+    -- python3 -m train_ncp \
+    --zero_stage 3 \
+    --adam_offload \
+    --gradient_checkpointing \
+    --ref_num_nodes 1 \
+    --ref_num_gpus_per_node 4 \
+    --reward_num_nodes 0 \
+    --reward_num_gpus_per_node 0 \
+    --actor_num_nodes 1 \
+    --actor_num_gpus_per_node 4 \
+    --pretrain Qwen/Qwen2.5-7B-Instruct-1M \
+    --save_path ./checkpoint/qwen7B-rlhf \
+    --micro_train_batch_size 1 \
+    --train_batch_size 64 \
+    --micro_rollout_batch_size 1 \
+    --rollout_batch_size 64 \
+    --n_samples_per_prompt 8 \
+    --max_epochs 1 \
+    --prompt_max_len 12000 \
+    --max_samples 100000 \
+    --generate_max_len 2048 \
+    --advantage_estimator group_norm \
+    --bf16 \
+    --actor_learning_rate 5e-7 \
+    --init_kl_coef 1e-6 \
+    --prompt_data json@$WORKING_DIR/rl_data \
+    --input_key prompt \
+    --apply_chat_template \
+    --save_steps 16 \
+    --eval_steps 8 \
+    --eval_split validation \
+    --ckpt_path $WORKING_DIR/checkpoint/qwen7B-rlhf \
+    --num_episodes 20 \
+    --flash_attn \
+    --enable_prefix_caching \
+    --vllm_num_engines 2 \
+    --vllm_tensor_parallel_size 2 \
+    --vllm_gpu_memory_utilization 0.9 \
+    --use_kl_loss \
+    --colocate_actor_ref \
+    --kl_estimator k3 \
+    --torch_compile \
+    --use_liger_kernel \
+    --ref_reward_offload \
+    --load_checkpoint \
+    > log7brl.txt
