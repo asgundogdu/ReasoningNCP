@@ -30,7 +30,7 @@ ray start --head \
   --dashboard-port=8265 \
   --ray-client-server-port=10001 \
   --num-gpus=5	
-```
+	```
 
 Initializes the GCS server on port 6379.
 
@@ -39,14 +39,16 @@ Exposes the Dashboard on port 8265.
 Opens Ray Client server on port 10001.
 
 
-UI should be visable from http://shmooze.tail22f087.ts.net:8265/#/overview
+UI should be visable from http://shmooze....t:8265/#/overview
 
 4. **Check Cluster Status**:
-```ray status
+	```
+ray status
 # For more detail:
-ray status -v```
+ray status -v
+	```
 
 5. **Terminate the Cluster**:
-```ray stop ```
 
+`ray stop`
 
