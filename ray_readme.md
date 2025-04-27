@@ -21,15 +21,15 @@ This file contains the essential commands to **start**, **connect**, and **termi
 
 3. ** Start the Ray Head (shmooze)**:
 
-	```
-ray start --head \
-  --node-ip-address=100.76.233.99 \
-  --port=6379 \
-  --include-dashboard=true \
-  --dashboard-host=0.0.0.0 \
-  --dashboard-port=8265 \
-  --ray-client-server-port=10001 \
-  --num-gpus=5	
+	```bash
+	ray start --head \
+  		--node-ip-address=100.76.233.99 \
+ 		--port=6379 \
+  		--include-dashboard=true \
+  		--dashboard-host=0.0.0.0 \
+  		--dashboard-port=8265 \
+ 	 	--ray-client-server-port=10001 \
+  		--num-gpus=5	
 	```
 
 Initializes the GCS server on port 6379.
@@ -42,10 +42,11 @@ Opens Ray Client server on port 10001.
 UI should be visable from http://shmooze....t:8265/#/overview
 
 4. **Check Cluster Status**:
-	```
-ray status
-# For more detail:
-ray status -v
+
+	```bash
+	ray status
+	# For more detail:
+	ray status -v
 	```
 
 5. **Terminate the Cluster**:
